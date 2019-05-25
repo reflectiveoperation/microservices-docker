@@ -1,0 +1,51 @@
+version: '2.2'
+services:
+    config-server:
+        container_name: config-server
+        build:
+            context: .
+            dockerfile: Dockerfile-configserver
+        image: config-server:latest
+        expose:
+            - 8081
+        ports:
+            - 8081:8081
+        networks:
+            - micro-network
+        volumes:
+            - application-config:/var/lib/application-config
+    eureka-server:
+        container_name: eureka-server
+        build:
+            context: .
+            dockerfile: Dockerfile-discoveryserver
+        image: eureka-server:latest
+        expose:
+            - 8761
+        ports:
+            - 8761:8761
+        networks:
+            - micro-network
+        depends_on:
+            - config-server
+    gateway-server:
+        container_name: gateway-server
+        build:
+            context: .
+            dockerfile: Dockerfile-gatewayserver
+        image: gateway-server:latest
+        expose:
+            - 8080
+        ports:
+            - 8080:8080
+        networks:
+            - micro-network
+        depends_on:
+            - config-server
+            - eureka-server
+networks:
+    micro-network:
+        driver: bridge
+volumes:
+    application-config:
+        external: true

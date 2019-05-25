@@ -1,0 +1,6 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+COPY files/gateway.jar /opt/lib/
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/gateway.jar"]
+EXPOSE 8080

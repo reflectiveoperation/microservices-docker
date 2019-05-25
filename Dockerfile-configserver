@@ -1,0 +1,9 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+COPY files/config.jar /opt/lib/
+RUN mkdir /var/lib/application-config
+COPY files/application-config /var/lib/application-config
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/config.jar"]
+VOLUME /var/lib/application-config
+EXPOSE 8081

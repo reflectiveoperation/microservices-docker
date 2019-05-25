@@ -1,0 +1,7 @@
+FROM alpine-jdk:base
+MAINTAINER javaonfly
+RUN apk --no-cache add netcat-openbsd
+COPY files/eureka.jar /opt/lib/
+ENTRYPOINT ["/usr/bin/java"]
+CMD ["-jar", "/opt/lib/eureka.jar"]
+EXPOSE 8761
